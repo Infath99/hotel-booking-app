@@ -1,6 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600&display=swap');
 
 .navBar{
-    height: 50px;
+    height: 70px;
     background-color: #003580;
     display: flex;
     justify-content: center;
@@ -17,7 +18,15 @@
 }
 
 .logo{
-    font-weight: 500;
+    font-family: 'Unbounded', cursive;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 36px;
+    color: rgb(228, 209, 222);
+}
+
+.spanClass{
+    color: red;
 }
 
 
@@ -26,6 +35,11 @@
     border: none;
     padding: 5px 10px;
     cursor: pointer;
-    color: #003580 !important;
+    color: white !important;
+    background-color: #003580;
+    border: 1px solid white;
+    padding: 10px;
+    border-radius: 20px;
+
 
 }
