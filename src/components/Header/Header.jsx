@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './header.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBed, faCalendarDays, faCar, faPerson, faPlane, faTaxi } from '@fortawesome/free-solid-svg-icons'
@@ -11,6 +11,12 @@ import { format } from "date-fns"
 
 
 function Header({ type }) {
+
+    const inputRef = useRef(null)
+
+    useEffect( () => {
+        inputRef.current.focus()
+    })
 
     const [openDate, setOpenDate] = useState(false)
 
@@ -85,6 +91,7 @@ function Header({ type }) {
                                 <FontAwesomeIcon icon={faBed} className="headerIcon" />
                                 <input
                                     type="text"
+                                    ref={inputRef}
                                     placeholder='Where are you going ?' className='headerSearchInput'
                                 />
                             </div>
