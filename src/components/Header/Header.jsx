@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, {useState} from 'react'
 import './header.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBed, faCalendarDays, faCar, faPerson, faPlane, faTaxi } from '@fortawesome/free-solid-svg-icons'
@@ -7,17 +7,19 @@ import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 
 import { format } from "date-fns"
+import { useNavigate } from 'react-router-dom';
 
 
 
-function Header({ type }) {
+function Header({type}) {
 
-    const inputRef = useRef(null)
 
-    useEffect( () => {
-        inputRef.current.focus()
-    })
+    // ** useState for Date
+    const [Destination, setDestination] = useState("")
 
+
+
+    // ** useState & Extand for Date
     const [openDate, setOpenDate] = useState(false)
 
     const [date, setDate] = useState([
@@ -29,6 +31,8 @@ function Header({ type }) {
     ]);
 
 
+
+    // ** useState & Extand for Select
     const [openOption, setOption] = useState(false)
 
     const [options, setOptions] = useState({
@@ -37,6 +41,8 @@ function Header({ type }) {
         room: 1
     })
 
+
+    // ** Counting for select Item
     const handleOption = (name, operation) => {
         setOptions((prevState) => {
             return {
@@ -47,9 +53,20 @@ function Header({ type }) {
     }
 
 
+    // ** Navigation use for React-router-dom
+    const navigate = useNavigate()
+
+    const HandleSearch = () => {
+        navigate("/hotels", { state : { Destination, date, options }})
+    };
+
+
+
+
     return (
         <div className="header">
             <div className= {type === "list" ? "headerContainer listMode" : "headerContainer"}>
+
                 <div className="headerList">
 
                     <div className="headerListItem active">
@@ -87,15 +104,19 @@ function Header({ type }) {
 
                         <div className="headerSearch">
 
+                            // ! 1) Destination
                             <div className="headerSearchItem">
                                 <FontAwesomeIcon icon={faBed} className="headerIcon" />
                                 <input
                                     type="text"
-                                    ref={inputRef}
                                     placeholder='Where are you going ?' className='headerSearchInput'
+                                    onChange={(event) => setDestination(event.target.value)}
+                                    value={Destination}
                                 />
                             </div>
 
+
+                            // ! 2) Date
                             <div className="headerSearchItem">
                                 <FontAwesomeIcon icon={faCalendarDays} className="headerIcon" />
 
@@ -107,15 +128,19 @@ function Header({ type }) {
                                     moveRangeOnFirstSelection={false}
                                     ranges={date}
                                     className="date"
+                                    minDate={new Date()}
                                 />}
-
                             </div>
+                            
 
+                            // ! 3) Select
                             <div className="headerSearchItem">
                                 <FontAwesomeIcon icon={faPerson} className="headerIcon" />
                                 <span onClick={() => setOption(!openOption)} className='headerSearchText'>{`${options.adult} adult · ${options.children} children · ${options.room} room`}</span>
 
                                 {openOption && <div className="options">
+
+                                    {/*  3.A) Adult */}
 
                                     <div className="optionItem">
                                         <span className="optionText">Adult</span>
@@ -125,6 +150,9 @@ function Header({ type }) {
                                             <button className="optionCounterButton" onClick={() => handleOption("adult", "i")}>+</button>
                                         </div>
                                     </div>
+                                    
+
+                                    {/* 3.B) Children */}
 
                                     <div className="optionItem">
                                         <span className="optionText">Children</span>
@@ -135,6 +163,9 @@ function Header({ type }) {
                                         </div>
                                     </div>
 
+
+                                    {/* 3.C) Room */}
+
                                     <div className="optionItem">
                                         <span className="optionText">Room</span>
                                         <div className="optionCounter">
@@ -143,11 +174,13 @@ function Header({ type }) {
                                             <button className="optionCounterButton" onClick={() => handleOption("room", "i")}>+</button>
                                         </div>
                                     </div>
+
+
                                 </div>}
                             </div>
 
                             <div className="headerSearchItem">
-                                <button className='headerButton'>Search</button>
+                                <button className='headerButton' onClick={HandleSearch}>Search</button>
                             </div>
 
                         </div>
